@@ -2,7 +2,7 @@ import { StyleSheet, Text, View, TextInput, Image,PermissionsAndroid } from 'rea
 import { StatusBar } from 'expo-status-bar';
 import * as ImagePicker from 'expo-image-picker';
 import React, { useState } from 'react';
-import { Provider, Button, DefaultTheme } from 'react-native-paper';
+import { Provider, Button, DefaultTheme,RadioButton } from 'react-native-paper';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { Camera } from 'expo-camera';
 import { Permissions } from 'expo';
@@ -27,6 +27,7 @@ export default function HomePage() {
   const [isLoading, setIsLoading] = useState(false);
   const [buttonStyle, setButtonStyle] = useState(styles.buttonContainer);
   const navigation = useNavigation();
+  const [checked, setChecked] = React.useState('first');
 
   async function requestCameraPermission() {
     try {
@@ -53,7 +54,7 @@ export default function HomePage() {
   const pickImage = async (fromCamera = false) => {
     let result;
     if (fromCamera) {
-      await Permissions.askAsync(Permissions.CAMERA);
+      // await Permissions.askAsync(Permissions.CAMERA);
       result = await ImagePicker.launchCameraAsync({
         mediaTypes: ImagePicker.MediaTypeOptions.Images,
         allowsEditing: true,
@@ -86,6 +87,21 @@ export default function HomePage() {
           <Button icon ="camera" title="Select Image" onPress={()=> pickImage(false)}>Upload Image</Button>
           </View>
           {image && <Image source={{ uri: image }} style={{ width: 200, height: 200 }} />}
+
+          <View style= {styles.radioContainer}>
+          <Text style={{ marginBottom: 8 }}>Your Color:</Text>
+
+          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+            <RadioButton value="first" status={ checked === 'first' ? 'checked' : 'unchecked' } onPress={() => setChecked('first')}/>
+            <Text style={{ marginLeft: 8 }} color = "blue">White</Text>
+          </View>
+
+          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+            <RadioButton value="second" status={ checked === 'second' ? 'checked' : 'unchecked' } onPress={() => setChecked('second')}/>
+            <Text style={{ marginLeft: 8 }} color = "blue">Black</Text>
+          </View>
+          </View>
+
           <View style={styles.submitContainer}>
           <Button disabled={!image || isLoading} onPress={() => navigation.navigate(GameLanding)}>Submit</Button>
           </View>
@@ -101,17 +117,26 @@ const styles = StyleSheet.create({
     height: '100%',
     justifyContent: 'center'
   },
+  radioContainer: {
+    display: 'flex',
+    backgroundColor: 'white',
+    paddingHorizontal: 40,
+    paddingVertical: 10,
+    borderRadius: 15,
+    marginTop: 10
+  },
   logo: {
     display: 'flex',
     alignItems : 'center',
     justifyContent: 'center',
-    height: '20%'
+    height: '8%',
+    backgroundColor: 'white',
+    marginBottom: 20
   },
   container: {
-    backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
-    height: '30%'
+    height: '60%'
   },
   title: {
     fontFamily: 'sans-serif',
@@ -122,15 +147,15 @@ const styles = StyleSheet.create({
   buttonContainer: {
     backgroundColor: 'white',
     borderRadius: 10,
-    padding: 5,
+    padding: 7,
     borderWidth: 2,
     borderColor: 'blue',
     marginBottom: 200
   },
   buttonContainerNoMargin: {
     backgroundColor: 'white',
-    borderRadius: 10,
-    padding: 5,
+    borderRadius: 7,
+    padding: 7,
     borderWidth: 2,
     borderColor: 'blue',
     marginBottom: 20
