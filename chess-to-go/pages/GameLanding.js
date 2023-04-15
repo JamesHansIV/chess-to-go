@@ -1,6 +1,7 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import { StyleSheet, Text, View, TextInput, Image, Linking } from 'react-native';
 import { Provider, Button, DefaultTheme,RadioButton } from 'react-native-paper';
+
 
 
 const theme = {
@@ -11,13 +12,24 @@ const theme = {
       accent: 'yellow',
     },
   };
+
   
 
-export default function GameLanding() {
+export default function GameLanding(route) {
     const [phoneNumber, setPhoneNumber] = useState('');
+    const [gameLink, setGameLink] = useState('');
+  
+    const handleSubmit = () => {
+        
+    }
+
+    useEffect(() => {
+      let gameLink = route.route.params.gameLink;
+      setGameLink(gameLink)
+    }, []);
 
     const handleGameLinkPress = () => {
-        Linking.openURL('https://www.ku.edu');
+        Linking.openURL(gameLink);
     }
   return (
     <Provider theme={theme}>
@@ -40,7 +52,7 @@ export default function GameLanding() {
         <View style={styles.submitContainer}>
         <Button
           title="Submit"
-          onPress={() => console.log(`Submitted phone number: ${phoneNumber}`)}
+          onPress={handleSubmit}
         >Submit</Button>
         </View>
         </View>

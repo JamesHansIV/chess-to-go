@@ -42,13 +42,18 @@ export default function HomePage() {
         },
       );
       if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-        console.log('Camera permission granted');
+        console.log('Camera permission granted')
       } else {
         console.log('Camera permission denied');
       }
     } catch (err) {
       console.warn(err);
     }
+  }
+
+  const handleSubmit = () => {
+    console.log("Hello")
+    navigation.navigate('GameLanding', { gameLink: "https://www.ku.edu" });
   }
 
   const pickImage = async (fromCamera = false) => {
@@ -103,7 +108,7 @@ export default function HomePage() {
           </View>
 
           <View style={styles.submitContainer}>
-          <Button disabled={!image || isLoading} onPress={() => navigation.navigate(GameLanding)}>Submit</Button>
+          <Button disabled={!image || isLoading} onPress={handleSubmit}>Submit</Button>
           </View>
         </View>
       </View>
