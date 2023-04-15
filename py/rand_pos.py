@@ -4,14 +4,20 @@ import os
 
 
 N_PIECES = 10 
-N_BOARDS = 30
+N_BOARDS = 43
 N_FILES = len(os.listdir())
 FILE_NAME = "boards_" + str(N_FILES - 1) + ".txt"
 
-pieces = ['p','p','p','p','p','p','p','p',
-          'r','n','b','q','k','b','n','r',
-          'P','P','P','P','P','P','P','P',
-          'R','N','B','Q','K','B','N','R']
+# ignore 3 pawns of each color
+pieces = ['black_pawn','black_pawn','black_pawn','black_pawn','black_pawn',
+          'black_rook','black_knight','black_bishop','black_queen','black_king','black_bishop','black_knight','black_rook',
+          'white_pawn','white_pawn','white_pawn','white_pawn','white_pawn',
+          'white_rook','white_knight','white_bishop','white_queen','white_king','white_bishop','white_knight','white_rook']
+
+# pieces = ['black_pawn','black_pawn','black_pawn','black_pawn','black_pawn','black_pawn','black_pawn','black_pawn',
+#           'black_rook','black_knight','black_bishop','black_queen','black_king','black_bishop','black_knight','black_rook',
+#           'white_pawn','white_pawn','white_pawn','white_pawn','white_pawn','white_pawn','white_pawn','white_pawn',
+#           'white_rook','white_knight','white_bishop','white_queen','white_king','white_bishop','white_knight','white_rook']
 
 positions = ['a1', 'a2', 'a3', 'a4', 'a5', 'a6', 'a7', 'a8',
              'b1', 'b2', 'b3', 'b4', 'b5', 'b6', 'b7', 'b8',
@@ -31,6 +37,8 @@ for i in range(0, N_BOARDS):
     
     zipped_samples = list(zip(sampled_pieces, sampled_positions))
     
-    print(i, zipped_samples, file=f)
+
+    
+    print(i, *zipped_samples, sep="\t", file=f)
     
 f.close()
