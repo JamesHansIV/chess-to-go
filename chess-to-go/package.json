@@ -11,18 +11,21 @@
   "dependencies": {
     "@react-navigation/native": "^6.1.6",
     "@react-navigation/stack": "^6.3.16",
+    "dotenv": "^16.0.3",
     "expo": "^47.0.0",
     "expo-camera": "~13.1.0",
     "expo-image-picker": "~14.0.2",
     "expo-permissions": "~14.0.0",
     "expo-status-bar": "~1.4.2",
     "react": "18.1.0",
-    "react-native": "0.70.5",
+    "react-native": "0.70.8",
     "react-native-paper": "^5.6.0",
-    "react-native-vector-icons": "^9.2.0"
+    "react-native-vector-icons": "^9.2.0",
+    "twilio": "^4.10.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.19.3"
+    "@babel/core": "^7.21.4",
+    "react-native-dotenv": "^3.4.8"
   },
   "private": true
 }
