@@ -16,7 +16,6 @@ def coordinates():
 
 @app.route("/sendGame", methods=["POST", "GET"])
 def sendGame():
-    print("twilio is reached")
     if request.method == "POST":
         sendGameReq(request.form["number"], request.form["url"])
 

@@ -11,5 +11,3 @@ def sendGameReq(number, url):
                                 from_='+18336856713',
                                 to=number
                             )
-    
-    print("this works fine")
