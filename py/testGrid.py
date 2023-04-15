@@ -13,22 +13,22 @@ cv.drawContours(img_gray, contours, -1, (0,255,0), 3)
 
 cv.imshow( "Contours", img_gray )
 cv.waitKey(0)
+x1,y1,w1,h1 = cv.boundingRect(contours[0])
+tlp = (x1,y1)
+trp = (x1,y1)
+blp = (x1,y1)
+brp = (x1,y1)
 
-tlp = (0, 0)
-trp = (999, 0)
-blp = (999, 0)
-brp = (999, 999)
-
-print(contours[0][0])
 for c in contours:
-    if c[0] + c[1] < tlp[0] + tlp[1]:
-        tlp = (c[0],c[1])
-    elif c[0] - c[1] < trp[0] - trp[1]:
-        trp = (c[0],c[1])
-    elif c[0] - c[1] > blp[0] - blp[1]:
-        blp = (c[0],c[1])
-    elif c[0] + c[1] > brp[0] + brp[1]:
-        brp = (c[0],c[1])
+    x,y,w,h = cv.boundingRect(c)
+    if x + y < tlp[0] + tlp[1]:
+        tlp = (x,y)
+    elif x - y < trp[0] - trp[1]:
+        trp = (x,y)
+    elif x - y > blp[0] - blp[1]:
+        blp = (x,y)
+    elif x + y > brp[0] + brp[1]:
+        brp = (x,y)
 
 rect = np.array(((tlp[0]+5, tlp[1]+5), (trp[0]-5, trp[1]+5), (brp[0]-5, brp[1]-5), (blp[0]+5, blp[1]-5)), dtype="float32")
 width = 200
