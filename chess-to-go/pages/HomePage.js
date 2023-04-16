@@ -9,12 +9,8 @@ import { Camera } from 'expo-camera';
 import { Permissions } from 'expo';
 import { useNavigation } from '@react-navigation/native';
 import GameLanding from './GameLanding';
-<<<<<<< HEAD
 import Draggable from 'react-native-draggable';
-
-=======
 import router from './routing'
->>>>>>> 3c4e1c61b85cfc751cfb35b42ce73b9c83e9fd3b
 
 
 const theme = {
@@ -47,7 +43,6 @@ export default function HomePage() {
   const [buttonStyle, setButtonStyle] = useState(styles.buttonContainer);
   const navigation = useNavigation();
   const [checked, setChecked] = React.useState('first');
-<<<<<<< HEAD
   // const [dotPositions, setDotPositions] = useState([
   //   { x: 100, y: 60 },
   //   { x: 300, y: 60 },
@@ -66,9 +61,8 @@ export default function HomePage() {
   // useEffect(() => {
   
   // }, []);
-=======
   const [links, setLinks] = useState([]);
->>>>>>> 3c4e1c61b85cfc751cfb35b42ce73b9c83e9fd3b
+
 
   async function requestCameraPermission() {
     try {
@@ -92,17 +86,12 @@ export default function HomePage() {
     }
   }
 
-<<<<<<< HEAD
-  const handleSubmit = () => {
 
-    navigation.navigate('GameLanding', { gameLink1: "http://www.ku.edu", gameLink2: "wagetever"});
-=======
   const handleSubmit = async () => {
     await router("makeGame", { imgData: image, checked: checked }, setLinks);
     console.log(links)
     //router("makeGame", { fenString: fenString }, setLinks);
     navigation.navigate('GameLanding', { gameLink1: links[0], gameLink2: links[1]});
->>>>>>> 3c4e1c61b85cfc751cfb35b42ce73b9c83e9fd3b
   }
 
   const pickImage = async (fromCamera = false) => {
