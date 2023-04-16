@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react'
 import { StyleSheet, Text, View, TextInput, Image, Linking } from 'react-native';
 import { Provider, Button, DefaultTheme,RadioButton } from 'react-native-paper';
+import router from './routing'
 const fetch = require('node-fetch');
 
 const theme = {
@@ -12,22 +13,22 @@ const theme = {
     },
   };
 
-  
-
 export default function GameLanding(route) {
     const [phoneNumber, setPhoneNumber] = useState('');
     const [gameLink1, setGameLink1] = useState('');
     const [gameLink2, setGameLink2] = useState('');
 
   
-    const handleSubmit = () => {
-      let data = {'number': phoneNumber, 'url': gameLink2}
-      
+    const handleSubmit = async () => {
+      //await router('sendGame', {'number': phoneNumber, 'url': gameLink2}, null)
+      const link = gameLink2.replace("https://lichess.org/", "");
+      let data = {'number': phoneNumber, 'url': link}
+
       var formBody = [];
       for (var property in data) {
-      var encodedKey = encodeURIComponent(property);
-      var encodedValue = encodeURIComponent(data[property]);
-      formBody.push(encodedKey + "=" + encodedValue);
+        var encodedKey = encodeURIComponent(property);
+        var encodedValue = encodeURIComponent(data[property]);
+        formBody.push(encodedKey + "=" + encodedValue);
       }
       formBody = formBody.join("&");
 
