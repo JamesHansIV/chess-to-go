@@ -36,6 +36,7 @@ const theme = {
 
 export default function HomePage() {
   const [image, setImage] = useState(null);
+  const [imageBytes, setImageBytes] = useState("")
   const [formValues, setFormValues] = useState({
     name: '',
   });
@@ -88,6 +89,7 @@ export default function HomePage() {
 
 
 
+
   const handleSubmit = async () => {
     let newLinks = await router("makeGame", { imgData: image, checked: checked });
     setLinks(newLinks)
@@ -116,7 +118,8 @@ export default function HomePage() {
       });
     }
     if (!result.cancelled) {
-      setImage(result.base64)
+      setImage(result.uri)
+      setImageBytes(result.base64)
       setButtonStyle(styles.buttonContainerNoMargin)
     }
   };
