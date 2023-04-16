@@ -40,4 +40,14 @@ warped_img = cv.warpPerspective(image, M, (width, height))
 
 cv.imshow( "Warped", warped_img )
 cv.waitKey(0)
+
+edges = cv.Canny(warped_img, 100, 150)
+lines = cv.HoughLinesP(edges, 1, np.pi/180, 60, minLineLength=40, maxLineGap=70)
+for line in lines:
+    x1, y1, x2, y2 = line[0]
+    cv.line(warped_img, (x1, y1), (x2, y2), (255, 0, 0), 3)
+
+cv.imshow( "Warped", warped_img )
+cv.waitKey(0)
+
 cv.destroyAllWindows()
