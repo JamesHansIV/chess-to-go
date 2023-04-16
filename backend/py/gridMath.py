@@ -41,10 +41,6 @@ def calcGridDimensions(filename):
         elif (math.isinf(slope)):
             vert_lines.append(line[0])
 
-
-        cv.imshow( "Lines", image )
-
-
     # sort lines
     horz_lines = sorted(horz_lines, key = lambda x: x[1])
 
@@ -61,7 +57,6 @@ def calcGridDimensions(filename):
     for line in horz_lines:
         x1, y1, x2, y2 = line
         cv.line(image, (x1, y1), (x2, y2), (0, 0, 255), 3)
-        cv.imshow("hor", image)
 
     # calc average gap
     ptr = sum_gap = 0

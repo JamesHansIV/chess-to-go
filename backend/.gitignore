@@ -1,3 +1,4 @@
 .env
 __pycache__
-UPLOAD_IMAGE.png
+py/__pycache__
+UPLOAD_IMAGE.*
