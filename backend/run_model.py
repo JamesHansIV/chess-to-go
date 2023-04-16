@@ -1,6 +1,9 @@
 import os
 import roboflow
 
+def convertToFem(predictions):
+    return
+
 def getModelResult(img_data):
     rf = roboflow.Roboflow(api_key=os.environ["ROBOFLOW_AUTH_KEY"])
     # List all projects for your workspace
@@ -24,4 +27,4 @@ def getModelResult(img_data):
     # convert this to fem
     prediction.json()['predictions']
 
-    return
+    return convertToFem(prediction.json()['predictions'])
