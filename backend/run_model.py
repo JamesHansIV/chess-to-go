@@ -5,7 +5,7 @@ from make_game import make_game
 from py.gridMath import calcGridDimensions, calcPiecePosition
 from py.preprocess import performTransform
 
-def getModelResult(img_data):
+def getModelResult(img_data, corners):
     rf = roboflow.Roboflow(api_key=os.environ["ROBOFLOW_AUTH_KEY"])
     # List all projects for your workspace
     workspace = rf.workspace()
@@ -16,7 +16,7 @@ def getModelResult(img_data):
         img_data_bytes = img_data.encode("utf-8")
         fh.write(base64.decodebytes(img_data_bytes))
 
-    performTransform("UPLOAD_IMAGE.jpg", [[190,50],[975,39],[1118,825],[30,800]],200,200)
+    performTransform("UPLOAD_IMAGE.jpg", corners, 150, 150)
     # Upload image to dataset
     project = rf.project(os.environ["ROBOFLOW_PROJECT_ID"])
     project.upload("UPLOAD_IMAGE.jpg")

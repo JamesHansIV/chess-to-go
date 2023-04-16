@@ -14,7 +14,8 @@ def hello():
 @app.route("/makeGame", methods=["POST"])
 def makeGame():
     if request.method == "POST":
-        res = getModelResult(request.form["imgData"])
+        print(request.form["corners"])
+        res = getModelResult(request.form["imgData"], request.form["corners"])
         if request.form["checked"] == "first":
             user1 = res[0]
             user2 = res[1]
