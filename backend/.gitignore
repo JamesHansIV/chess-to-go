@@ -1,4 +1,3 @@
 .env
 __pycache__
-py/__pycache__
-UPLOAD_IMAGE.*
+UPLOAD_IMAGE.jpeg
