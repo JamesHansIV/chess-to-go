@@ -32,7 +32,7 @@ export default function GameLanding(route) {
       }
       formBody = formBody.join("&");
 
-      const url = 'http://10.104.11.53:5000/sendGame';
+      const url = 'http://10.104.241.69:5000/sendGame';
       fetch(url, {
         method: 'POST',
         headers: {
