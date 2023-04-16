@@ -20,4 +20,4 @@ def sendGame():
         sendGameReq(request.form["number"], request.form["url"])
 
 if __name__ == "__main__":
-    app.run()
+    app.run(port = 5000, host = '10.104.241.69')
