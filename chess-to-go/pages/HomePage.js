@@ -36,6 +36,7 @@ const theme = {
 
 export default function HomePage() {
   const [image, setImage] = useState(null);
+  const [imageBytes, setImageBytes] = useState("")
   const [formValues, setFormValues] = useState({
     name: '',
   });
@@ -86,9 +87,8 @@ export default function HomePage() {
     }
   }
 
-
   const handleSubmit = async () => {
-    await router("makeGame", { imgData: image, checked: checked }, setLinks);
+    await router("makeGame", { imgData: imageBytes, checked: checked }, setLinks);
     console.log(links)
     //router("makeGame", { fenString: fenString }, setLinks);
     navigation.navigate('GameLanding', { gameLink1: links[0], gameLink2: links[1]});
@@ -114,7 +114,8 @@ export default function HomePage() {
       });
     }
     if (!result.cancelled) {
-      setImage(result.base64)
+      setImage(result.uri)
+      setImageBytes(result.base64)
       setButtonStyle(styles.buttonContainerNoMargin)
     }
   };
