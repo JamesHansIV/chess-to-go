@@ -1,8 +1,7 @@
 import React, {useState, useEffect} from 'react'
 import { StyleSheet, Text, View, TextInput, Image, Linking } from 'react-native';
 import { Provider, Button, DefaultTheme,RadioButton } from 'react-native-paper';
-
-
+const fetch = require('node-fetch');
 
 const theme = {
     ...DefaultTheme,
@@ -17,19 +16,42 @@ const theme = {
 
 export default function GameLanding(route) {
     const [phoneNumber, setPhoneNumber] = useState('');
-    const [gameLink, setGameLink] = useState('');
+    const [gameLink1, setGameLink1] = useState('');
+    const [gameLink2, setGameLink2] = useState('');
+
   
     const handleSubmit = () => {
-        
+      let data = {'number': phoneNumber, 'url': gameLink2}
+      
+      var formBody = [];
+      for (var property in data) {
+      var encodedKey = encodeURIComponent(property);
+      var encodedValue = encodeURIComponent(data[property]);
+      formBody.push(encodedKey + "=" + encodedValue);
+      }
+      formBody = formBody.join("&");
+
+      const url = 'http://10.104.241.69:5000/sendGame';
+      fetch(url, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
+        },
+        body: formBody
+      })
     }
 
     useEffect(() => {
-      let gameLink = route.route.params.gameLink;
-      setGameLink(gameLink)
+      let gameLink1 = route.route.params.gameLink1;
+      let gameLink2 = route.route.params.gameLink2;
+      console.log(gameLink1)
+      console.log(gameLink2)
+      setGameLink1(gameLink1)
+      setGameLink2(gameLink2)
     }, []);
 
     const handleGameLinkPress = () => {
-        Linking.openURL(gameLink);
+        Linking.openURL(gameLink1);
     }
   return (
     <Provider theme={theme}>
@@ -40,7 +62,7 @@ export default function GameLanding(route) {
         <View style = {styles.body}>
         <View style = {styles.gameLink}>
             <Text style = {{fontSize: 20}}>Click on the link to join your game: </Text>
-            <Text style = {{fontSize: 20,textDecorationLine: 'underline',color: 'blue'}} onPress={handleGameLinkPress}>gamelink.com</Text>
+            <Text style = {{fontSize: 20,textDecorationLine: 'underline',color: 'blue'}} onPress={handleGameLinkPress}>{gameLink1}</Text>
         </View>
         <TextInput
           placeholder="Enter your friend's phone number"
