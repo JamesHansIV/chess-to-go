@@ -52,8 +52,7 @@ export default function HomePage() {
   }
 
   const handleSubmit = () => {
-    console.log("Hello")
-    navigation.navigate('GameLanding', { gameLink: "https://www.ku.edu" });
+    navigation.navigate('GameLanding', { gameLink1: "http://www.ku.edu", gameLink2: "wagetever"});
   }
 
   const pickImage = async (fromCamera = false) => {

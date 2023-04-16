@@ -30,4 +30,4 @@ def sendGame():
         return Response("{'test': 'testing'}", status=201, mimetype="application/json")
 
 if __name__ == "__main__":
-    app.run()
+    app.run(port = 5000, host = '10.104.241.69')
