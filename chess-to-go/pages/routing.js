@@ -1,6 +1,5 @@
 
 export default async function router(pathEnding, data) {
-    console.log(data)
     var formBody = [];
     for (var property in data) {
         var encodedKey = encodeURIComponent(property);
