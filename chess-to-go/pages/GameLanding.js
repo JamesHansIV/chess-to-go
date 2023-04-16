@@ -43,13 +43,15 @@ export default function GameLanding(route) {
     }
 
     useEffect(() => {
-      let gameLink1 = route.route.params.gameLink1;
-      let gameLink2 = route.route.params.gameLink2;
-      console.log(gameLink1)
-      console.log(gameLink2)
-      setGameLink1(gameLink1)
-      setGameLink2(gameLink2)
-    }, []);
+      if (route && route.route && route.route.params) {
+        let gameLink1 = route.route.params.gameLink1;
+        let gameLink2 = route.route.params.gameLink2;
+        console.log(gameLink1)
+        console.log(gameLink2)
+        setGameLink1(gameLink1)
+        setGameLink2(gameLink2)
+      }
+    }, [route]);
 
     const handleGameLinkPress = () => {
         Linking.openURL(gameLink1);
