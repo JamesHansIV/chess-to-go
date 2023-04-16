@@ -87,9 +87,6 @@ export default function HomePage() {
     }
   }
 
-
-
-
   const handleSubmit = async () => {
     let newLinks = await router("makeGame", { imgData: image, checked: checked });
     setLinks(newLinks)
