@@ -87,11 +87,15 @@ export default function HomePage() {
     }
   }
 
+
+
+
   const handleSubmit = async () => {
-    await router("makeGame", { imgData: imageBytes, checked: checked }, setLinks);
-    console.log(links)
+    let newLinks = await router("makeGame", { imgData: image, checked: checked });
+    setLinks(newLinks)
     //router("makeGame", { fenString: fenString }, setLinks);
-    navigation.navigate('GameLanding', { gameLink1: links[0], gameLink2: links[1]});
+    // while(!(links[0])){} // Initialize newLinks with the links array}
+    await navigation.navigate('GameLanding', { gameLink1: newLinks[0], gameLink2: newLinks[1]});
   }
 
   const pickImage = async (fromCamera = false) => {
