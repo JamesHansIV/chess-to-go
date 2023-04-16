@@ -50,7 +50,7 @@ export default function HomePage() {
   //   { x: 100, y: 260 },
   //   { x: 300, y: 260 },
   // ]);
-  const dotPosInit = [{x:100, y:60},{x:300, y:60},{x:100, y:260},{x:300, y:260}]
+  const dotPosInit = [{x:100, y:60},{x:300, y:60},{x:300, y:260},{x:100, y:260}]
 
   const imgRef = useRef(null);
 
@@ -88,11 +88,17 @@ export default function HomePage() {
   }
 
   const handleSubmit = async () => {
-    let newLinks = await router("makeGame", { imgData: image, checked: checked });
+    const corner_points = [[parseInt(topLeftDotPos.current.x), parseInt(topLeftDotPos.current.y)],
+                           [parseInt(topRightDotPos.current.x), parseInt(topRightDotPos.current.y)],
+                           [parseInt(bottomRightDotPos.current.x), parseInt(bottomRightDotPos.current.y)],
+                           [parseInt(bottomLeftDotPos.current.x), parseInt(bottomLeftDotPos.current.y)]];
+    console.log("corners",corner_points)
+    const newLinks = await router("makeGame", { imgData: imageBytes, checked: checked, corners: corner_points});
     setLinks(newLinks)
     //router("makeGame", { fenString: fenString }, setLinks);
-    await navigation.navigate('GameLanding', { gameLink1: links[0], gameLink2: links[1]});
+    await navigation.navigate('GameLanding', { gameLink1: newLinks[0], gameLink2: newLinks[1]});
   }
+
 
   const pickImage = async (fromCamera = false) => {
     let result;
@@ -186,22 +192,61 @@ export default function HomePage() {
             }}/>}
           </View>
 
+          {image&&
           <Draggable
               x={dotPosInit[0].x}
               y={dotPosInit[0].y}
               
               onDragRelease={(e)=>{
                 const windowWidth = Dimensions.get('window').width;
-                // const windowHeight = Dimensions.get('window').height;
-                topLeftDotPos.current.x = e.nativeEvent.pageX - (windowWidth - imgRef.current.width) / 2;
-                topLeftDotPos.current.y = e.nativeEvent.pageY - imgRef.current.y;
-                console.log("top left dot", topLeftDotPos.current.x, imgRef.current.x);
-                // console.log(e.nativeEvent.pageY)
-                // topLeftDotPos.current.x = e.nativeEvent
+                topLeftDotPos.current.x = Math.max(e.nativeEvent.pageX - (windowWidth - imgRef.current.width) / 2,0);
+                topLeftDotPos.current.y = Math.max(e.nativeEvent.pageY - imgRef.current.y - imgRef.current.height - 160, 0);
+                console.log("top left dot", topLeftDotPos.current.x, topLeftDotPos.current.y);
               }}
-            >
-              <View style={[styles.dot, {backgroundColor: '#00FF00'}]}/>
-            </Draggable>
+            ><View style={[styles.dot, {backgroundColor: '#00FF00'}]}/>
+            </Draggable>}
+
+            {image&&
+            <Draggable
+              x={dotPosInit[1].x}
+              y={dotPosInit[1].y}
+              
+              onDragRelease={(e)=>{
+                const windowWidth = Dimensions.get('window').width;
+                topRightDotPos.current.x = Math.min(e.nativeEvent.pageX - (windowWidth - imgRef.current.width) / 2, imgRef.current.width);
+                topRightDotPos.current.y = Math.max(e.nativeEvent.pageY - imgRef.current.y - imgRef.current.height - 160, 0);
+                console.log("top right dot", topRightDotPos.current.x, topRightDotPos.current.y);
+              }}
+            ><View style={[styles.dot, {backgroundColor: '#00FF00'}]}/>
+            </Draggable>}
+
+            {image &&
+            <Draggable
+              x={dotPosInit[2].x}
+              y={dotPosInit[2].y}
+              
+              onDragRelease={(e)=>{
+                const windowWidth = Dimensions.get('window').width;
+                bottomRightDotPos.current.x = Math.min(e.nativeEvent.pageX - (windowWidth - imgRef.current.width) / 2, imgRef.current.width);
+                bottomRightDotPos.current.y = Math.min(e.nativeEvent.pageY - imgRef.current.y - imgRef.current.height - 160, imgRef.current.height);
+                console.log("bottom right dot", bottomRightDotPos.current.x, bottomRightDotPos.current.y);
+              }}
+            ><View style={[styles.dot, {backgroundColor: '#00FF00'}]}/>
+            </Draggable>}
+
+            {image &&
+            <Draggable
+              x={dotPosInit[3].x}
+              y={dotPosInit[3].y}
+              
+              onDragRelease={(e)=>{
+                const windowWidth = Dimensions.get('window').width;
+                bottomLeftDotPos.current.x = Math.max(e.nativeEvent.pageX - (windowWidth - imgRef.current.width) / 2,0);
+                bottomLeftDotPos.current.y = Math.min(e.nativeEvent.pageY - imgRef.current.y - imgRef.current.height - 160, imgRef.current.height);
+                console.log("bottom left dot", bottomLeftDotPos.current.x, bottomLeftDotPos.current.y);
+              }}
+            ><View style={[styles.dot, {backgroundColor: '#00FF00'}]}/>
+            </Draggable>}
 
           <View style= {styles.radioContainer}>
           <Text style={{ marginBottom: 8 }}>Your Color:</Text>
