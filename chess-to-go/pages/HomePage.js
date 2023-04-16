@@ -8,6 +8,7 @@ import { Camera } from 'expo-camera';
 import { Permissions } from 'expo';
 import { useNavigation } from '@react-navigation/native';
 import GameLanding from './GameLanding';
+import router from './routing'
 
 
 const theme = {
@@ -19,6 +20,18 @@ const theme = {
   },
 };
 
+// function getEncodedFile(imageUri, setImage) {
+//   const reader = new FileReader();
+//   reader.onload = () => {
+//     const imgData = reader.result;
+//     setImage(imgData);
+//     console.log(imgData)
+//   }
+//   console.log(imageUri)
+//   reader.readAsDataURL(imageUri);
+//   console.log("gets to here")
+// }
+
 export default function HomePage() {
   const [image, setImage] = useState(null);
   const [formValues, setFormValues] = useState({
@@ -28,6 +41,7 @@ export default function HomePage() {
   const [buttonStyle, setButtonStyle] = useState(styles.buttonContainer);
   const navigation = useNavigation();
   const [checked, setChecked] = React.useState('first');
+  const [links, setLinks] = useState([]);
 
   async function requestCameraPermission() {
     try {
@@ -51,8 +65,11 @@ export default function HomePage() {
     }
   }
 
-  const handleSubmit = () => {
-    navigation.navigate('GameLanding', { gameLink1: "http://www.ku.edu", gameLink2: "wagetever"});
+  const handleSubmit = async () => {
+    await router("makeGame", { imgData: image, checked: checked }, setLinks);
+    console.log(links)
+    //router("makeGame", { fenString: fenString }, setLinks);
+    navigation.navigate('GameLanding', { gameLink1: links[0], gameLink2: links[1]});
   }
 
   const pickImage = async (fromCamera = false) => {
@@ -68,14 +85,14 @@ export default function HomePage() {
     } else {
       result = await ImagePicker.launchImageLibraryAsync({
         mediaTypes: ImagePicker.MediaTypeOptions.Images,
+        base64: true,
         allowsEditing: true,
         aspect: [4, 3],
         quality: 1,
       });
     }
-  
     if (!result.cancelled) {
-      setImage(result.uri);
+      setImage(result.base64)
       setButtonStyle(styles.buttonContainerNoMargin)
     }
   };
