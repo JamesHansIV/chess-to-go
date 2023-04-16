@@ -91,7 +91,7 @@ export default function HomePage() {
     await router("makeGame", { imgData: imageBytes, checked: checked }, setLinks);
     console.log(links)
     //router("makeGame", { fenString: fenString }, setLinks);
-    navigation.navigate('GameLanding', { gameLink1: links[0], gameLink2: links[1]});
+    await navigation.navigate('GameLanding', { gameLink1: links[0], gameLink2: links[1]});
   }
 
   const pickImage = async (fromCamera = false) => {
