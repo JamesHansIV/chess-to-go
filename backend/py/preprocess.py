@@ -24,8 +24,11 @@ def performTransform(filename, corner_points, img_height, img_width):
     dst = cv2.warpPerspective(img, M, (img_width, img_height))
 
 
+    # resize 
+    resized_img = cv2.resize(img, (img_width, img_height), interpolation = cv2.INTER_AREA)
+
     # save
     _filename = "TEST.png"
-    cv2.imwrite(filename=_filename,img=dst)
+    cv2.imwrite(filename=_filename,img=resized_img)
 
 #performTransform("test_images/test0.png", [[190,50],[975,39],[1118,825],[30,800]],500,500)
