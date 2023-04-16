@@ -1,13 +1,15 @@
-import { StyleSheet, Text, View, TextInput, Image,PermissionsAndroid } from 'react-native';
+import { StyleSheet, Text, View, TextInput, Image,PermissionsAndroid ,PanResponder} from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import * as ImagePicker from 'expo-image-picker';
-import React, { useState } from 'react';
+import {Dimensions} from 'react-native';
+import React, { useState, useRef, useEffect } from 'react';
 import { Provider, Button, DefaultTheme,RadioButton } from 'react-native-paper';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { Camera } from 'expo-camera';
 import { Permissions } from 'expo';
 import { useNavigation } from '@react-navigation/native';
 import GameLanding from './GameLanding';
+import Draggable from 'react-native-draggable';
 import router from './routing'
 
 
@@ -41,7 +43,26 @@ export default function HomePage() {
   const [buttonStyle, setButtonStyle] = useState(styles.buttonContainer);
   const navigation = useNavigation();
   const [checked, setChecked] = React.useState('first');
+  // const [dotPositions, setDotPositions] = useState([
+  //   { x: 100, y: 60 },
+  //   { x: 300, y: 60 },
+  //   { x: 100, y: 260 },
+  //   { x: 300, y: 260 },
+  // ]);
+  const dotPosInit = [{x:100, y:60},{x:300, y:60},{x:100, y:260},{x:300, y:260}]
+
+  const imgRef = useRef(null);
+
+  const topLeftDotPos = useRef({x:100, y:60});
+  const topRightDotPos = useRef({x:300, y:60});
+  const bottomLeftDotPos = useRef({x:100, y:260});
+  const bottomRightDotPos = useRef({x:300, y:260});
+
+  // useEffect(() => {
+  
+  // }, []);
   const [links, setLinks] = useState([]);
+
 
   async function requestCameraPermission() {
     try {
@@ -64,6 +85,7 @@ export default function HomePage() {
       console.warn(err);
     }
   }
+
 
   const handleSubmit = async () => {
     await router("makeGame", { imgData: image, checked: checked }, setLinks);
@@ -107,7 +129,78 @@ export default function HomePage() {
           <View style={buttonStyle}>
           <Button icon ="camera" title="Select Image" onPress={()=> pickImage(false)}>Upload Image</Button>
           </View>
-          {image && <Image source={{ uri: image }} style={{ width: 200, height: 200 }} />}
+
+            {/* <Draggable
+              x={topLeftDotPosRef.current.x}
+              y={topLeftDotPosRef.current.y}
+              ref={topLeftDotPosRef}
+            >
+              <View style={[styles.dot, {backgroundColor: 'black'}]}/>
+            </Draggable> */}
+
+
+{/* 
+            <Draggable
+              x={bottomLeftDotPosRef.current.x}
+              y={bottomLeftDotPosRef.current.y}
+              ref={bottomLeftDotPosRef}
+            >
+              <View style={[styles.dot, {backgroundColor: 'black'}]}/>
+            </Draggable>
+
+            <Draggable
+              x={bottomRightDotPosRef.current.x}
+              y={bottomRightDotPosRef.current.y}
+              ref={bottomRightDotPosRef}
+            >
+              <View style={[styles.dot, {backgroundColor: 'black'}]}/>
+            </Draggable> */}
+          {/* {dotPositions.map((position, index) => (
+      <Draggable
+        key={index}
+        x={position.x}
+        y={position.y}
+        onDrag={(event, { x, y }) => {
+          const newDotPositions = [...dotPositions];
+          newDotPositions[index] = { x, y };
+          setDotPositions(newDotPositions);
+        }}
+        onStop={(event, { x, y }) => {
+          // do something with the new position of the component after it has been dropped
+          console.log(`Dropped at x:${x}, y:${y}`);
+        }}
+        scale={0.01} 
+      >
+        <View style={[styles.dot, { backgroundColor: 'black' }]} />
+      </Draggable> */}
+    {/* ))} */}
+          <View style={{ width: 200, height: 200, elevation:0 }} ref={imgRef} onLayout={(e)=>{console.log(e.nativeEvent.layout.height)}}>
+            {image && <Image source={{ uri: image }} style={{ width: 200, height: 200, elevation:0 }}
+            onLayout={(e)=>{
+              imgRef.current.x = e.nativeEvent.layout.x;
+              imgRef.current.y = e.nativeEvent.layout.y;
+              imgRef.current.width = e.nativeEvent.layout.width;
+              imgRef.current.height = e.nativeEvent.layout.height;
+              // console.log("asfda", imgRef.current.width)
+            }}/>}
+          </View>
+
+          <Draggable
+              x={dotPosInit[0].x}
+              y={dotPosInit[0].y}
+              
+              onDragRelease={(e)=>{
+                const windowWidth = Dimensions.get('window').width;
+                // const windowHeight = Dimensions.get('window').height;
+                topLeftDotPos.current.x = e.nativeEvent.pageX - (windowWidth - imgRef.current.width) / 2;
+                topLeftDotPos.current.y = e.nativeEvent.pageY - imgRef.current.y;
+                console.log("top left dot", topLeftDotPos.current.x, imgRef.current.x);
+                // console.log(e.nativeEvent.pageY)
+                // topLeftDotPos.current.x = e.nativeEvent
+              }}
+            >
+              <View style={[styles.dot, {backgroundColor: '#00FF00'}]}/>
+            </Draggable>
 
           <View style= {styles.radioContainer}>
           <Text style={{ marginBottom: 8 }}>Your Color:</Text>
@@ -171,7 +264,7 @@ const styles = StyleSheet.create({
     padding: 7,
     borderWidth: 2,
     borderColor: 'blue',
-    marginBottom: 200
+    // marginBottom: 200
   },
   buttonContainerNoMargin: {
     backgroundColor: 'white',
@@ -188,6 +281,12 @@ const styles = StyleSheet.create({
     margin: 20,
     borderWidth: 2,
     borderColor: 'blue',
-  }
+  },
+  dot: {
+    width: 20,
+    height: 20,
+    borderRadius: 5,
+    elevation: 99
+  },
   });
 
