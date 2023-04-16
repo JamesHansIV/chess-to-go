@@ -8,7 +8,9 @@ BETA = 0
 def performTransform(filename, corner_points, img_height, img_width):
     img = cv2.imread(filename)
     
-    orig_points_list = corner_points
+    # corner_points_list = corner_points
+    orig_points_list = [[corner_points[0:2]],[corner_points[2:4]],[corner_points[4:6]],[corner_points[6:8]]]
+    print("unflattendd", orig_points_list)
 
     # convert colors and contrast
     img = cv2.cvtColor(img, cv2.COLOR_RGB2GRAY)
