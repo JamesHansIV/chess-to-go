@@ -36,7 +36,7 @@ const theme = {
 
 export default function HomePage() {
   const [image, setImage] = useState(null);
-  const [imageBytes, setImageBytes] = useState("")
+  const [imageBytes, setImageBytes] = useState(null)
   const [formValues, setFormValues] = useState({
     name: '',
   });
@@ -88,10 +88,10 @@ export default function HomePage() {
   }
 
   const handleSubmit = async () => {
-    let newLinks = await router("makeGame", { imgData: image, checked: checked });
+    const newLinks = await router("makeGame", { imgData: imageBytes, checked: checked });
     setLinks(newLinks)
     //router("makeGame", { fenString: fenString }, setLinks);
-    await navigation.navigate('GameLanding', { gameLink1: links[0], gameLink2: links[1]});
+    await navigation.navigate('GameLanding', { gameLink1: newLinks[0], gameLink2: newLinks[1]});
   }
 
   const pickImage = async (fromCamera = false) => {

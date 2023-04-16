@@ -8,7 +8,7 @@ export default async function router(pathEnding, data) {
     }
     formBody = formBody.join("&");
 
-    const url = `http://10.104.241.69:5000/${pathEnding}`;
+    const url = `http://10.104.11.53:5000/${pathEnding}`;
     console.log(pathEnding)
     try {
         const response = await fetch(url, {
