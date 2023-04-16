@@ -2,6 +2,7 @@ from flask import Flask, request, Response
 from sendGameReq import sendGameReq
 from run_model import getModelResult
 from dotenv import load_dotenv
+import os
 
 load_dotenv()
 app = Flask(__name__)
@@ -30,4 +31,4 @@ def sendGame():
         return Response("{'this': 'works'}", status=200, mimetype="application/json")
 
 if __name__ == "__main__":
-    app.run(port = 5000, host = '10.104.11.53')
+    app.run(port = 5000, host = os.environ["BACKEND_IP"])

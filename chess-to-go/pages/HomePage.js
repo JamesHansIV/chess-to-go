@@ -36,7 +36,7 @@ const theme = {
 
 export default function HomePage() {
   const [image, setImage] = useState(null);
-  const [imageBytes, setImageBytes] = useState("")
+  const [imageBytes, setImageBytes] = useState(null)
   const [formValues, setFormValues] = useState({
     name: '',
   });
@@ -96,7 +96,7 @@ export default function HomePage() {
     const newLinks = await router("makeGame", { imgData: imageBytes, checked: checked, corners: corner_points});
     setLinks(newLinks)
     //router("makeGame", { fenString: fenString }, setLinks);
-    await navigation.navigate('GameLanding', { gameLink1: newLinks[0], gameLink2: newLinks[1]});
+    await navigation.navigate('GameLanding', { gameLink1: links[0], gameLink2: links[1]});
   }
 
 
