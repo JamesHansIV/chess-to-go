@@ -21,7 +21,6 @@ def makeGame():
             user1 = res[1]
             user2 = res[0]
 
-        print("in makeGame", user1, user2)
         return Response(f"{{\"user1\": \"{user1}\", \"user2\": \"{user2}\"}}", status=200, mimetype="application/json")
 
 @app.route("/sendGame", methods=["POST"])
