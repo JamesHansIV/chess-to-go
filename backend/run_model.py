@@ -1,7 +1,9 @@
 import os
 import roboflow
+import base64
+from make_game import make_game
 
-def convertToFem(predictions):
+def convertToFen(predictions):
     return
 
 def getModelResult(img_data):
@@ -9,12 +11,20 @@ def getModelResult(img_data):
     # List all projects for your workspace
     workspace = rf.workspace()
     # List all versions of a specific project
-    project.versions()
+    #project.versions()
     # Decode file
-    with open("UPLOAD_IMAGE.jpg", "wb") as fh:
-        fh.write(img_data.decode('base64'))
+
+    with open("UPLOAD_IMAGE.jpeg", "wb") as fh:
+        img_data_bytes = img_data.encode("utf-8")
+        fh.write(base64.decodebytes(img_data_bytes))
+
+
+    fenString = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR"
+    res = make_game(fenString)
+    return res
+    '''
     # Upload image to dataset
-    project.upload("UPLOAD_IMAGE.jpg")
+    project.upload("UPLOAD_IMAGE.jepg")
     # Retrieve the model of a specific project
     model = project.version("1").model
     # predict on a local image
@@ -27,4 +37,4 @@ def getModelResult(img_data):
     # convert this to fem
     prediction.json()['predictions']
 
-    return convertToFem(prediction.json()['predictions'])
+    return convertToFen(prediction.json()['predictions'])'''
